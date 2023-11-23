@@ -68,6 +68,8 @@ namespace _3_GUI.View
 			if (login != null)
 			{
 				LoginSuccessful = true;
+				Properties.Settings.Default.TKdaLogin = login.Username;
+				Properties.Settings.Default.MKdaLogin = login.MatKhau;
 				//saveInfor();
 				MessageBox.Show("Log in successful");
                 this.Hide();
