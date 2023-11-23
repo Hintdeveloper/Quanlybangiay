@@ -241,11 +241,11 @@ namespace _3_GUI.View
 			{
 				MessageBox.Show("Giá bán phải cao hơn giá nhập", "Chú ý");
 			}
-			else if (linkanh == "")
+			else if(linkanh == "")
 			{
-				MessageBox.Show("Bạn chưa thêm ảnh cho sản phẩm", "Chú ý");
-			}
-			else
+                MessageBox.Show("Thiếu ảnh", "Chú ý");
+            }
+            else
 			{
 				OpenFileDialog op = new OpenFileDialog();
 				DialogResult dialog = MessageBox.Show("Bạn có muốn thêm sản phẩm không?", "Thêm", MessageBoxButtons.YesNo);

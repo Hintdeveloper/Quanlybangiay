@@ -105,7 +105,7 @@ namespace _3_GUI.View
 			loadData();
 		}
 
-		private void dgrid_NhanVien_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		private void dgrid_NhanVien_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.RowIndex >= 0)
 			{

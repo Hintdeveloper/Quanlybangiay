@@ -502,7 +502,7 @@ namespace _3_GUI.View
 			}
 			else
 			{
-				_ID3 = _INhanVienServices.GetAllViewNhanVien().FirstOrDefault(x => x.Username == Properties.Settings.Default.User).ID;
+				_ID3 = _INhanVienServices.GetAllViewNhanVien().FirstOrDefault(x => x.Username == Properties.Settings.Default.TKdaLogin).ID;
 				var kh = _IKhachHangServices.GetAllViewKhachHang().FirstOrDefault(c => c.SDT == tb_sodienthoai.Text);
 
 

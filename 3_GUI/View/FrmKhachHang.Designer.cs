@@ -5,7 +5,7 @@
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+		public System.ComponentModel.IContainer components = null;
 
 		/// <summary>
 		/// Clean up any resources being used.
@@ -26,7 +26,7 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent()
+		public void InitializeComponent()
 		{
 			groupBox1 = new GroupBox();
 			rd_khachquen = new RadioButton();
@@ -250,22 +250,22 @@
 
 		#endregion
 
-		private GroupBox groupBox1;
-		private RadioButton rd_khachquen;
-		private RadioButton rd_khachvanglai;
-		private Label label4;
-		private Label label3;
-		private Label label2;
-		private Label label1;
-		private TextBox tb_point;
-		private TextBox tb_sdt;
-		private TextBox tb_hoten;
-		private GroupBox groupBox2;
-		private Button btn_clear;
-		private Button btn_xoa;
-		private Button btn_sua;
-		private Button btn_them;
-		private TextBox txt_TimKiem;
-		private DataGridView dtg_show;
+		public GroupBox groupBox1;
+		public RadioButton rd_khachquen;
+		public RadioButton rd_khachvanglai;
+		public Label label4;
+		public Label label3;
+		public Label label2;
+		public Label label1;
+		public TextBox tb_point;
+		public TextBox tb_sdt;
+		public TextBox tb_hoten;
+		public GroupBox groupBox2;
+		public Button btn_clear;
+		public Button btn_xoa;
+		public Button btn_sua;
+		public Button btn_them;
+		public TextBox txt_TimKiem;
+		public DataGridView dtg_show;
 	}
 }

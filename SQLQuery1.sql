@@ -4,3 +4,4 @@ values(NEWID(), (Select ID from ChucVu where Ten like N'Trưởng phòng'), 'C',
 select * from NhanVien
 
 select * from ChucVu
+

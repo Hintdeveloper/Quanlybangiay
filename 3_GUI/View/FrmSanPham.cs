@@ -15,11 +15,17 @@ namespace _3_GUI.View
 {
     public partial class FrmSanPham : Form
     {
-        private ISanPhamServices _isanPhamServices;
-        private Guid _id;
-        private SanPham _sp;
-
-        public bool AddSuccessful { get; private set; }
+        public ISanPhamServices _isanPhamServices;
+        public Guid _id;
+        public SanPham _sp;
+        public SanPham TestSp
+        {
+            get { return _sp; }
+            set { _sp = value; }
+        }
+        public bool AddSuccessful { get; set; }
+        public bool EditSuccessful { get; set; }
+        public bool ViewSuccessful { get; set; }
 
         public FrmSanPham()
         {
@@ -117,15 +123,18 @@ namespace _3_GUI.View
             }
         }
 
-        private void btn_Sua_Click(object sender, EventArgs e)
+        public void btn_Sua_Click(object sender, EventArgs e)
         {
             if (_sp == null)
             {
                 MessageBox.Show("Không tìm thấy mã sản phẩm", "Cảnh báo");
+                EditSuccessful = false;
             }
             else if (checknhap() == false)
             {
                 MessageBox.Show("Không được để trống các trường", "Chú ý");
+                EditSuccessful = false;
+
             }
             else
             {
@@ -141,17 +150,20 @@ namespace _3_GUI.View
                         _sp.TrangThai = rbtn_HD.Checked ? 1 : 0;
                         _isanPhamServices.Update(_sp);
                         MessageBox.Show("Sửa thành công");
+                        EditSuccessful = true;
                         Reset();
                     }
                     else
                     {
                         MessageBox.Show("Không thành công");
+                        EditSuccessful = false;
+
                     }
                 }
             }
         }
 
-        private void btn_Xoa_Click(object sender, EventArgs e)
+        public void btn_Xoa_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("Bạn có chắc chắn muốn xóa không?", "Thông báo", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
@@ -169,16 +181,17 @@ namespace _3_GUI.View
             }
         }
 
-        private void btn_Reset_Click(object sender, EventArgs e)
+        public void btn_Reset_Click(object sender, EventArgs e)
         {
             Reset();
         }
 
-        private void dgrid_SP_CellClick(object sender, DataGridViewCellEventArgs e)
+        public void dgrid_SP_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int row = e.RowIndex;
             if (row >= 0)
             {
+                ViewSuccessful = true;
                 DataGridViewRow r = dgrid_SP.Rows[e.RowIndex];
                 _sp = _isanPhamServices.GetAll().FirstOrDefault(c => c.ID == Guid.Parse(r.Cells[0].Value.ToString()));
                 txt_Ma.Text = r.Cells[1].Value.ToString();
@@ -187,24 +200,28 @@ namespace _3_GUI.View
                 rbtn_KHD.Checked = r.Cells[3].Value.ToString() == "Không hoạt động";
                 txt_GhiChu.Text = r.Cells[4].Value.ToString();
             }
+            else
+            {
+                ViewSuccessful= false;
+            }
         }
 
-        private void txt_Ten_TextChanged(object sender, EventArgs e)
+        public void txt_Ten_TextChanged(object sender, EventArgs e)
         {
             txt_Ma.Text = "TH" + Utilities.Utilities.GetMaTuSinh(txt_Ten.Text) + (_isanPhamServices.GetAll().Count + 1);
         }
 
-        private void txt_TimKiem_TextChanged(object sender, EventArgs e)
+        public void txt_TimKiem_TextChanged(object sender, EventArgs e)
         {
             LoadDataFormDb(txt_TimKiem.Text);
         }
 
-        private void txt_TimKiem_Leave(object sender, EventArgs e)
+        public void txt_TimKiem_Leave(object sender, EventArgs e)
         {
             txt_TimKiem.Text = "Tìm kiếm...";
         }
 
-        private void txt_TimKiem_MouseClick(object sender, MouseEventArgs e)
+        public void txt_TimKiem_MouseClick(object sender, MouseEventArgs e)
         {
             txt_TimKiem.Text = "";
         }

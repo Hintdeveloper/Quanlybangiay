@@ -448,7 +448,7 @@
 			dgrid_NhanVien.RowTemplate.Height = 29;
 			dgrid_NhanVien.Size = new Size(979, 200);
 			dgrid_NhanVien.TabIndex = 5;
-			dgrid_NhanVien.CellContentClick += dgrid_NhanVien_CellContentClick;
+			dgrid_NhanVien.CellClick += dgrid_NhanVien_CellClick;
 			// 
 			// FrmNhanVien
 			// 

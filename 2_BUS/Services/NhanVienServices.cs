@@ -72,7 +72,7 @@ namespace _2_BUS.Services
 									 Username = a.Username,
 									 ID = a.ID,
 									 HoTen = a.HoTen,
-									 ChucVu = b.Ten,
+									 IDCV = b.ID,
 									 GioiTinh = a.GioiTinh,
 									 AnhNv = a.AnhNv,
 									 Email = a.Email,

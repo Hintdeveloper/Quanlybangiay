@@ -1,4 +1,5 @@
-﻿using _2_BUS.IServices;
+﻿using _1_DAL.DomainMolder;
+using _2_BUS.IServices;
 using _2_BUS.Services;
 using System;
 using System.Collections.Generic;
@@ -23,26 +24,45 @@ namespace _3_GUI.View
 			_chucVuServices = new ChucVuServices();
 		}
 
-		public void btn_NhanVien_Click(object sender, EventArgs e)
-		{
-			Guid idRole = _inhanVienServices.GetAllViewNhanVien().FirstOrDefault(x => x.Username == Properties.Settings.Default.TKdaLogin).ID;
-			var id = _inhanVienServices.GetAllNhanVien().FirstOrDefault(p => p.ID == idRole).IDCV;
-			var idcv = _chucVuServices.GetAll().FirstOrDefault(p => p.ID == id).Ten;
-			if (idcv == "Trưởng phòng")
-			{
+        public void btn_NhanVien_Click(object sender, EventArgs e)
+        {
+            var allViewNhanVien = _inhanVienServices.GetAllViewNhanVien();
+            if (allViewNhanVien != null)
+            {
+                var user = allViewNhanVien.FirstOrDefault(x => x.Username == Properties.Settings.Default.TKdaLogin);
+                if (user != null)
+                {
+                    Guid idRole = user.ID;
+                    var nhanVien = _inhanVienServices.GetAllNhanVien().FirstOrDefault(p => p.ID == idRole);
+                    if (nhanVien != null)
+                    {
+                        var id = nhanVien.IDCV;
+                        var chucVu = _chucVuServices.GetAll().FirstOrDefault(p => p.ID == id);
+                        if (chucVu != null)
+                        {
+                            var idcv = chucVu.Ten;
+                            if (idcv == "Trưởng phòng")
+                            {
+                                this.panel3.Controls.Clear();
+                                FrmCV_NV frmQLNhanVien = new FrmCV_NV() { Dock = DockStyle.Fill, TopLevel = false, TopMost = true };
+                                this.panel3.Controls.Add(frmQLNhanVien);
+                                frmQLNhanVien.Show();
+                            }
+                            else if (idcv != "Trưởng phòng")
+                            {
+                                MessageBox.Show("Nhân viên không có quyền sử dụng chức năng này");
+                            }
+                        }
+                    }
+                }
+				else
+				{
+					MessageBox.Show("Không tìm thấy tài khoản");
+				}
+            }
+        }
 
-				this.panel3.Controls.Clear();
-				FrmCV_NV frmQLNhanVien = new FrmCV_NV() { Dock = DockStyle.Fill, TopLevel = false, TopMost = true };
-				this.panel3.Controls.Add(frmQLNhanVien);
-				frmQLNhanVien.Show();
-			}
-			else if (idcv != "Trưởng phòng")
-			{
-				MessageBox.Show("Nhân viên không có quyền sử dụng chức năng này");
-			}
-		}
-
-		public void btn_SP_Click(object sender, EventArgs e)
+        public void btn_SP_Click(object sender, EventArgs e)
 		{
 			this.panel3.Controls.Clear();
 			FrmQuanLySanPham frmQLChiTietSP = new FrmQuanLySanPham() { Dock = DockStyle.Fill, TopLevel = false, TopMost = true };

@@ -1,4 +1,5 @@
-﻿using _2_BUS.IServices;
+﻿using _1_DAL.DomainMolder;
+using _2_BUS.IServices;
 using _2_BUS.Services;
 using _2_BUS.ViewMolder;
 using System;
@@ -18,7 +19,18 @@ namespace _3_GUI.View
 		IKhachHangServices _IKhachHangServices;
 		public Guid ID;
 		List<ViewKhachHang> _lstViewKhachHang;
-		public FrmKhachHang()
+		public KhachHang khachHang;
+
+		public KhachHang TestKH
+		{
+            get { return khachHang; }
+            set { khachHang = value; }
+        }
+        public bool AddSuccessful { get; set; }
+        public bool EditSuccessful { get; set; }
+        public bool ViewSuccessful { get; set; }
+
+        public FrmKhachHang()
 		{
 			InitializeComponent();
 			_IKhachHangServices = new KhachHangServices();
@@ -51,11 +63,12 @@ namespace _3_GUI.View
 			return true;
 		}
 
-		private void btn_them_Click(object sender, EventArgs e)
+		public void btn_them_Click(object sender, EventArgs e)
 		{
 			if (checknhap() == false)
 			{
 				MessageBox.Show("Không được để trống các trường", "Chú ý");
+				AddSuccessful = false;
 			}
 			else
 			{
@@ -69,29 +82,43 @@ namespace _3_GUI.View
 				_IKhachHangServices.Add(kh);
 				LoadData();
 				MessageBox.Show("Thêm khách hàng thành công");
+				AddSuccessful = true;
 			}
 		}
 
-		private void btn_sua_Click(object sender, EventArgs e)
+		public void btn_sua_Click(object sender, EventArgs e)
 		{
-			DialogResult dg = MessageBox.Show("Bạn có muốn sửa khách hàng?");
-			if (dg == DialogResult.OK)
+			DialogResult dg = MessageBox.Show("Bạn có muốn sửa khách hàng?","Confirm" ,MessageBoxButtons.YesNo);
+			if (dg == DialogResult.Yes)
 			{
-				ViewKhachHang kh = new ViewKhachHang()
-				{
-					ID = ID,
-					HovaTen = tb_hoten.Text,
-					Poin = Convert.ToInt32(tb_point.Text),
-					SDT = tb_sdt.Text,
-					TrangThai = rd_khachquen.Checked == true ? 1 : 0,
-				};
-				_IKhachHangServices.Update(kh);
-				LoadData();
-				MessageBox.Show("Sửa khách hàng thành công");
+                if (checknhap() == false)
+                {
+                    MessageBox.Show("Không được để trống các trường", "Chú ý");
+                    EditSuccessful = false;
+                }
+                else
+                {
+                    ViewKhachHang kh = new ViewKhachHang()
+                    {
+                        ID = ID,
+                        HovaTen = tb_hoten.Text,
+                        Poin = Convert.ToInt32(tb_point.Text),
+                        SDT = tb_sdt.Text,
+                        TrangThai = rd_khachquen.Checked == true ? 1 : 0,
+                    };
+                    _IKhachHangServices.Update(kh);
+                    LoadData();
+                    MessageBox.Show("Sửa khách hàng thành công");
+                    EditSuccessful = true;
+                }
+            }
+			else
+			{
+				EditSuccessful = false;
 			}
 		}
 
-		private void btn_xoa_Click(object sender, EventArgs e)
+		public void btn_xoa_Click(object sender, EventArgs e)
 		{
 			DialogResult dialog = MessageBox.Show("Bạn có muốn xóa khách hàng không?", "Chú ý", MessageBoxButtons.YesNo);
 			if (dialog == DialogResult.Yes)
@@ -102,7 +129,7 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void btn_clear_Click(object sender, EventArgs e)
+		public void btn_clear_Click(object sender, EventArgs e)
 		{
 			Reset();
 		}
@@ -123,7 +150,7 @@ namespace _3_GUI.View
 
 		}
 
-		private void dtg_show_CellClick(object sender, DataGridViewCellEventArgs e)
+		public void dtg_show_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.RowIndex >= 0)
 			{
@@ -135,10 +162,16 @@ namespace _3_GUI.View
 				tb_sdt.Text = Convert.ToString(kh.SDT);
 				rd_khachvanglai.Checked = (kh.TrangThai == 0) ? true : false;
 				rd_khachquen.Checked = (kh.TrangThai != 0) ? true : false;
+
+				ViewSuccessful = true;
+			}
+			else
+			{
+				ViewSuccessful = false;
 			}
 		}
 
-		private void txt_TimKiem_TextChanged(object sender, EventArgs e)
+		public void txt_TimKiem_TextChanged(object sender, EventArgs e)
 		{
 			LoadData();
 		}

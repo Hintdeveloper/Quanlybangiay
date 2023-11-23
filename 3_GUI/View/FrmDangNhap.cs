@@ -67,9 +67,9 @@ namespace _3_GUI.View
             var login = _inhanVienServices.GetAllViewNhanVien().Where(p => p.Username == tb_taikhoan.Text && p.MatKhau == tb_matkhau.Text).FirstOrDefault();
 			if (login != null)
 			{
-				LoginSuccessful = true;
 				Properties.Settings.Default.TKdaLogin = login.Username;
 				Properties.Settings.Default.MKdaLogin = login.MatKhau;
+				LoginSuccessful = true;
 				//saveInfor();
 				MessageBox.Show("Log in successful");
                 this.Hide();
