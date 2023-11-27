@@ -16,14 +16,16 @@ namespace _3_GUI.View
 {
 	public partial class FrmThongKe : Form
 	{
-		private IHoaDonChiTietServices _hoaDonChiTietServices;
-		private IHoaDonServices _ihoaDonServices;
-		private INhanVienServices _nhanVienServices;
-		private IKhachHangServices _ikhachHangServices;
-		private ISanPhamChiTietServices _sanPhamChiTietServices;
+		public IHoaDonChiTietServices _hoaDonChiTietServices;
+		public IHoaDonServices _ihoaDonServices;
+		public INhanVienServices _nhanVienServices;
+		public IKhachHangServices _ikhachHangServices;
+		public ISanPhamChiTietServices _sanPhamChiTietServices;
 		public List<ViewHoaDon> viewHoaDons;
 		public List<ViewHoaDonCT> viewHoaDonCTs;
 		public List<KhachHang> _lstkhachHangs;
+
+		public bool CheckSuccess { get; set; }
 		public FrmThongKe()
 		{
 			InitializeComponent();
@@ -37,7 +39,7 @@ namespace _3_GUI.View
 			loadDate();
 			loadData1();
 		}
-		private void LoadSanPham()
+		public void LoadSanPham()
 		{
 			foreach (var x in _sanPhamChiTietServices.GetViewChiTietSps())
 			{
@@ -78,6 +80,7 @@ namespace _3_GUI.View
 			foreach (var i in x)
 			{
 				dgrid_Show.Rows.Add(i.a.ID, i.d.TenSP, i.c.SoLuong, i.c.DonGia, i.c.SoLuong * i.c.DonGia, i.b.SDT == "0" ? "Khách vãng lai" : i.b.SDT);
+				CheckSuccess = true;
 			}
 			lbl_DoanhThu.Text = x.Select(x => x.a).Distinct().Sum(x => x.ThanhTien).ToString();
 			lbl_HD.Text = x.GroupBy(x => x.a).Count().ToString();
@@ -108,7 +111,7 @@ namespace _3_GUI.View
 
 		}
 
-		private void date_Ngay_ValueChanged(object sender, EventArgs e)
+		public void date_Ngay_ValueChanged(object sender, EventArgs e)
 		{
 			dgrid_Show.Rows.Clear();
 			var x = (from a in _ihoaDonServices.GetAll().Where(x => x.NgayTao.ToString("dd-MM-yyyy") == date_Ngay.Value.ToString("dd-MM-yyyy")).ToList()
@@ -121,6 +124,7 @@ namespace _3_GUI.View
 			foreach (var i in x)
 			{
 				dgrid_Show.Rows.Add(i.a.ID, i.d.TenSP, i.c.SoLuong, i.c.DonGia, i.c.SoLuong * i.c.DonGia, i.b.SDT == "0" ? "Khách vãng lai" : i.b.SDT);
+				CheckSuccess = true;
 			}
 
 			lbl_DoanhThu.Text = x.Select(x => x.a).Distinct().Sum(x => x.ThanhTien).ToString();
@@ -129,7 +133,7 @@ namespace _3_GUI.View
 			lbl_KH.Text = x.GroupBy(x => x.b).Count().ToString();
 		}
 
-		private void cmb_Nam_SelectedIndexChanged(object sender, EventArgs e)
+		public void cmb_Nam_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (cmb_Thang.Text != "")
 			{
@@ -143,7 +147,7 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void cmb_Thang_SelectedIndexChanged(object sender, EventArgs e)
+		public void cmb_Thang_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (cmb_Nam.Text != "")
 			{
@@ -152,7 +156,7 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void txt_Sdt_TextChanged(object sender, EventArgs e)
+		public void txt_Sdt_TextChanged(object sender, EventArgs e)
 		{
 			if (int.TryParse(txt_Sdt.Text, out int x) || txt_Sdt.Text.Length <= 10)
 			{
@@ -164,7 +168,7 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void cmb_ten_SelectedIndexChanged(object sender, EventArgs e)
+		public void cmb_ten_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (cmb_ten.Text != "")
 			{
@@ -225,7 +229,7 @@ namespace _3_GUI.View
 
 		}
 
-		private void txt_TK_TextChanged(object sender, EventArgs e)
+		public void txt_TK_TextChanged(object sender, EventArgs e)
 		{
 			loadData();
 		}

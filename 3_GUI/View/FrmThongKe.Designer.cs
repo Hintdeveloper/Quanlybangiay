@@ -5,7 +5,7 @@
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+		public System.ComponentModel.IContainer components = null;
 
 		/// <summary>
 		/// Clean up any resources being used.
@@ -26,7 +26,7 @@
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent()
+		public void InitializeComponent()
 		{
 			DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
 			DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
@@ -558,44 +558,44 @@
 
 		#endregion
 
-		private Panel panel1;
-		private Label label3;
-		private Label lbl_DoanhThu;
-		private Label label1;
-		private Panel panel2;
-		private Label lbl_HD;
-		private Label label12;
-		private Panel panel4;
-		private Label lbl_KH;
-		private Label label11;
-		private Panel panel3;
-		private Label label7;
-		private Label label6;
-		private Label lbl_LN;
-		private Panel panel5;
-		private Label lbl_SP;
-		private Label label9;
-		private GroupBox groupBox5;
-		private DateTimePicker date_Ngay;
-		private GroupBox groupBox7;
-		private Label label5;
-		private ComboBox cmb_Nam;
-		private ComboBox cmb_Thang;
-		private Label label8;
-		private GroupBox groupBox6;
-		private TextBox txt_Sdt;
-		private Label label2;
-		private GroupBox groupBox1;
-		private ComboBox cmb_ten;
-		private GroupBox groupBox4;
-		private DataGridView dgrid_Show;
-		private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-		private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-		private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-		private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-		private DataGridViewTextBoxColumn TongTien;
-		private DataGridViewTextBoxColumn Sdt;
-		private TextBox txt_TK;
-		private Label label4;
+		public Panel panel1;
+		public Label label3;
+		public Label lbl_DoanhThu;
+		public Label label1;
+		public Panel panel2;
+		public Label lbl_HD;
+		public Label label12;
+		public Panel panel4;
+		public Label lbl_KH;
+		public Label label11;
+		public Panel panel3;
+		public Label label7;
+		public Label label6;
+		public Label lbl_LN;
+		public Panel panel5;
+		public Label lbl_SP;
+		public Label label9;
+		public GroupBox groupBox5;
+		public DateTimePicker date_Ngay;
+		public GroupBox groupBox7;
+		public Label label5;
+		public ComboBox cmb_Nam;
+		public ComboBox cmb_Thang;
+		public Label label8;
+		public GroupBox groupBox6;
+		public TextBox txt_Sdt;
+		public Label label2;
+		public GroupBox groupBox1;
+		public ComboBox cmb_ten;
+		public GroupBox groupBox4;
+		public DataGridView dgrid_Show;
+		public DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+		public DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+		public DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+		public DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+		public DataGridViewTextBoxColumn TongTien;
+		public DataGridViewTextBoxColumn Sdt;
+		public TextBox txt_TK;
+		public Label label4;
 	}
 }
