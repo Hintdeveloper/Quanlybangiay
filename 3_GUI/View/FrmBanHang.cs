@@ -33,8 +33,8 @@ namespace _3_GUI.View
 		FilterInfoCollection FilterInfoCollection;
 		VideoCaptureDevice VideoCaptureDevice;
 		List<GioHangItem> gioHangItems = ViewGioHang.Instance.GetItems();
-		private decimal tongtien = 0;
-		private bool isFound = false;
+		public decimal tongtien = 0;
+		public bool isFound = false;
 		public Guid _ID;
 		public Guid _ID2;
 		public Guid _ID3;
@@ -43,6 +43,8 @@ namespace _3_GUI.View
 		public string _Ma;
 		public string _Images;
 		decimal _TongTien = 0;
+
+		public bool Flag {  get; set; }
 		public FrmBanHang()
 		{
 			InitializeComponent();
@@ -153,7 +155,7 @@ namespace _3_GUI.View
 				cbb_httt.Items.Add(a.Ten);
 			}
 		}
-		private void LoadGioHang()
+		public void LoadGioHang()
 		{
 
 			dtg_giohang.Rows.Clear();
@@ -169,7 +171,7 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void timer1_Tick(object sender, EventArgs e)
+		public void timer1_Tick(object sender, EventArgs e)
 		{
 			if (pictureCam.Image != null)
 			{
@@ -225,7 +227,7 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void dtg_sanpham_CellClick(object sender, DataGridViewCellEventArgs e)
+		public void dtg_sanpham_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.RowIndex >= 0)
 			{
@@ -268,55 +270,65 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void tb_timkiem_TextChanged(object sender, EventArgs e)
+		public void tb_timkiem_TextChanged(object sender, EventArgs e)
 		{
 			LoadDataSp();
 		}
-		private void XuLyGioHang()
+		public void XuLyGioHang()
 		{
 			var p = _ISanPhamChiTietServices.GetViewChiTietSps().FirstOrDefault(x => x.ID == _ID);
 			var data = ViewGioHang.Instance.GetItems().FirstOrDefault(x => x.ID == p.ID);
-			if (p.SoLuongTon == 0)
+			if(p == null)
 			{
-				MessageBox.Show("Sản phẩm này đã không còn! Vui lòng chọn sản phẩm khác");
-			}
-			else if (data == null)
-			{
-				GioHangItem item = new GioHangItem()
-				{
-					ID = p.ID,
-					Ma = p.Ma,
-					IDSPCT = p.ID,
-					Ten = p.TenSP,
-					SoLuong = 1,
-					DonGia = p.GiaBan
-				};
-				ViewGioHang.Instance.AddItem(item);
-				tongtien = 0;
-				tb_giatrigiohang.Text = "0";
-			}
+                MessageBox.Show("Bạn chưa chọn sản phẩm hoặc sản phẩm không có trong danh mục !", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Flag = false;
+            }
 			else
 			{
-				if (data.SoLuong == p.SoLuongTon)
+				if (p.SoLuongTon == 0)
 				{
-					MessageBox.Show("Sản phẩm trong giỏ hàng đã vượt quá số lượng cho phép");
+					MessageBox.Show("Sản phẩm này đã không còn! Vui lòng chọn sản phẩm khác");
+					Flag = false;
+				}
+				else if (data == null)
+				{
+					GioHangItem item = new GioHangItem()
+					{
+						ID = p.ID,
+						Ma = p.Ma,
+						IDSPCT = p.ID,
+						Ten = p.TenSP,
+						SoLuong = 1,
+						DonGia = p.GiaBan
+					};
+					ViewGioHang.Instance.AddItem(item);
+					tongtien = 0;
+					tb_giatrigiohang.Text = "0";
+					Flag = true;
 				}
 				else
 				{
-					data.SoLuong++;
+					if (data.SoLuong == p.SoLuongTon)
+					{
+						MessageBox.Show("Sản phẩm trong giỏ hàng đã vượt quá số lượng cho phép");
+					}
+					else
+					{
+						data.SoLuong++;
+					}
 				}
-			}
+			}			
 			tb_giatrigiohang.Text = "0";
 			LoadGioHang();
 			LoadCheckBox();
 		}
 
-		private void btn_themgiohang_Click(object sender, EventArgs e)
+		public void btn_themgiohang_Click(object sender, EventArgs e)
 		{
 			XuLyGioHang();
 		}
 
-		private void dtg_hd_CellClick(object sender, DataGridViewCellEventArgs e)
+		public void dtg_hd_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.RowIndex >= 0)
 			{
@@ -332,7 +344,7 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void tb_tienkhachtra_TextChanged(object sender, EventArgs e)
+		public void tb_tienkhachtra_TextChanged(object sender, EventArgs e)
 		{
 			decimal tienKhachDua;
 			if (!decimal.TryParse(tb_tienkhachtra.Text, out tienKhachDua))
@@ -346,7 +358,7 @@ namespace _3_GUI.View
 			tb_tientralai.Text = tienThoiLai.ToString(/*"N0", CultureInfo.CreateSpecificCulture("vi-VN")*/);
 		}
 
-		private void btn_qr_Click(object sender, EventArgs e)
+		public void btn_qr_Click(object sender, EventArgs e)
 		{
 			VideoCaptureDevice = new VideoCaptureDevice(FilterInfoCollection[cbb_cam.SelectedIndex].MonikerString);
 			VideoCaptureDevice.NewFrame += VideoCaptureDevice_NewFrame; ;
@@ -354,12 +366,12 @@ namespace _3_GUI.View
 			timer1.Start();
 		}
 
-		private void VideoCaptureDevice_NewFrame(object sender, NewFrameEventArgs eventArgs)
+		public void VideoCaptureDevice_NewFrame(object sender, NewFrameEventArgs eventArgs)
 		{
 			pictureCam.Image = (Bitmap)eventArgs.Frame.Clone();
 		}
 
-		private void LoadCheckBox()
+		public void LoadCheckBox()
 		{
 			// Kiểm tra nếu cột checkbox chưa được thêm vào bảng thì mới thêm
 			if (!dtg_giohang.Columns.Contains("chk_SelectProduct"))
@@ -373,7 +385,7 @@ namespace _3_GUI.View
 				dtg_giohang.Columns.Add(checkBoxColumn);
 			}
 		}
-		private void ClearGioHang()
+		public void ClearGioHang()
 		{
 			if (gioHangItems.Any())
 			{
@@ -392,7 +404,7 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void dtg_giohang_CellClick(object sender, DataGridViewCellEventArgs e)
+		public void dtg_giohang_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
 			if (e.RowIndex >= 0)
 			{
@@ -403,7 +415,7 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void dtg_giohang_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		public void dtg_giohang_CellContentClick(object sender, DataGridViewCellEventArgs e)
 		{
 			if (dtg_giohang.Columns[e.ColumnIndex].Name == "chk_SelectProduct")
 			{
@@ -426,7 +438,7 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void tb_sodienthoai_TextChanged(object sender, EventArgs e)
+		public void tb_sodienthoai_TextChanged(object sender, EventArgs e)
 		{
 			if (int.TryParse(tb_sodienthoai.Text, out int x))
 			{
@@ -436,6 +448,7 @@ namespace _3_GUI.View
 					tb_hotenkhachang.Text = a.HovaTen;
 					tb_pont.Text = Convert.ToString(a.Poin);
 					isFound = true; // Đã tìm thấy khách hàng
+
 				}
 				else
 				{
@@ -453,11 +466,11 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void btn_clear_Click(object sender, EventArgs e)
+		public void btn_clear_Click(object sender, EventArgs e)
 		{
 			Clear();
 		}
-		private void LoadHoaDonChuaThanhToan()
+		public void LoadHoaDonChuaThanhToan()
 		{
 			dtg_hd.Rows.Clear();
 			dtg_hd.ColumnCount = 9;
@@ -478,7 +491,7 @@ namespace _3_GUI.View
 				dtg_hd.Rows.Add(a.ID, a.Ma, a.TenNV, a.TenKH, a.NgayTao, a.NgayThanhToan, a.SDT, a.ThanhTien, a.TrangThai == 0 ? "Chưa thanh toán" : "Đã thanh toán");
 			}
 		}
-		private void ClearSauThanhToan()
+		public void ClearSauThanhToan()
 		{
 			if (_lstViewHD.Count == 0)
 			{
@@ -552,7 +565,7 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void btn_addhoadon_Click(object sender, EventArgs e)
+		public void btn_addhoadon_Click(object sender, EventArgs e)
 		{
 			bool hasSelectedProduct = false;
 			foreach (DataGridViewRow row in dtg_giohang.Rows)
@@ -568,6 +581,7 @@ namespace _3_GUI.View
 			if (hasSelectedProduct == false)
 			{
 				MessageBox.Show("Không có sản phẩm nào được chọn");
+				Flag =false;
 				return;
 			}
 			else
@@ -576,35 +590,37 @@ namespace _3_GUI.View
 				if (checkkh != null)
 				{
 					TaoHoaDon();
-
+					Flag = true;
 				}
 				else
 				{
 					MessageBox.Show("Khách hàng này chưa tồn tại trong cửa hàng");
 					DialogResult dg = MessageBox.Show("Nếu muốn thêm thông tin của khách hàng thì chọn (Yes)!!", "Thong bao", MessageBoxButtons.YesNo);
-					if (dg == DialogResult.Yes)
+					if (dg == DialogResult.Yes && tb_sodienthoai.Text == "" || tb_hotenkhachang.Text == "")
 					{
-						ViewKhachHang vkh = new ViewKhachHang()
-						{
-							ID = new Guid(),
-							HovaTen = tb_hotenkhachang.Text,
-							SDT = tb_sodienthoai.Text,
-							TrangThai = 1,
-							Poin = 0
-						};
-						_IKhachHangServices.Add(vkh);
-						MessageBox.Show("Thông tin khách hàng đã được thêm vào mục đơn hàng! Hãy tiếp tục hành động của mình");
-						TaoHoaDon();
+						MessageBox.Show("Số điện thoại hoặc họ tên khách hàng đang thiếu, vui lòng nhập bổ sung !", "Không thể nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						Flag = false;
 					}
-					else
+					else if(dg == DialogResult.Yes && tb_sodienthoai.Text != "" || tb_hotenkhachang.Text != "")
 					{
-
-					}
-				}
+                        ViewKhachHang vkh = new ViewKhachHang()
+                        {
+                            ID = new Guid(),
+                            HovaTen = tb_hotenkhachang.Text,
+                            SDT = tb_sodienthoai.Text,
+                            TrangThai = 1,
+                            Poin = 0
+                        };
+                        _IKhachHangServices.Add(vkh);
+                        MessageBox.Show("Thông tin khách hàng đã được thêm vào mục đơn hàng! Hãy tiếp tục hành động của mình","Thêm thành công", MessageBoxButtons.OK,MessageBoxIcon.Information);
+                        TaoHoaDon();
+						Flag = true;
+                    }
+                }
 			}
 		}
 
-		private void btn_thanhtoan_Click(object sender, EventArgs e)
+		public void btn_thanhtoan_Click(object sender, EventArgs e)
 		{
 			foreach (var item in _lstViewHDct)
 			{
@@ -617,6 +633,7 @@ namespace _3_GUI.View
 			if (_lstViewHD.Count == 0)
 			{
 				MessageBox.Show("Không có hóa đơn để thanh toán");
+				Flag = false;
 			}
 			else
 			{
@@ -626,6 +643,7 @@ namespace _3_GUI.View
 				if (selectedHd == null)
 				{
 					MessageBox.Show("Không tìm thấy hóa đơn");
+					Flag= false;
 				}
 				else
 				{
@@ -691,7 +709,7 @@ namespace _3_GUI.View
 					var cc = _IHoaDonServices.GetAll().FirstOrDefault(c => c.Ma == maHoaDon).ID;
 					FrmThongTinHoaDon frmThongTinHD = new FrmThongTinHoaDon(cc);
 					frmThongTinHD.Show();
-
+					Flag = true;
 				}
 			}
 		}
@@ -717,7 +735,7 @@ namespace _3_GUI.View
 			return diem;
 		}
 
-		private void cb_nullin4_CheckedChanged(object sender, EventArgs e)
+		public void cb_nullin4_CheckedChanged(object sender, EventArgs e)
 		{
 			if (cb_nullin4.Checked == true)
 			{
@@ -735,12 +753,12 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void btn_huyhoadon_Click(object sender, EventArgs e)
+		public void btn_huyhoadon_Click(object sender, EventArgs e)
 		{
 			ClearSauThanhToan();
 		}
 
-		private void tb_diem_TextChanged(object sender, EventArgs e)
+		public void tb_diem_TextChanged(object sender, EventArgs e)
 		{
 			int diemSuDung = 0;
 			if (!int.TryParse(tb_diem.Text, out diemSuDung) || diemSuDung < 0)
@@ -764,7 +782,7 @@ namespace _3_GUI.View
 			tb_tongiatri.Text = tienCanThanhToan.ToString();
 		}
 
-		private void btn_giam1_Click(object sender, EventArgs e)
+		public void btn_giam1_Click(object sender, EventArgs e)
 		{
 			GioHangItem item = ViewGioHang.Instance.GetItems().FirstOrDefault(x => x.ID == _ID);
 			if (item != null && item.SoLuong > 1)
@@ -775,7 +793,7 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void btn_tang1_Click(object sender, EventArgs e)
+		public void btn_tang1_Click(object sender, EventArgs e)
 		{
 			GioHangItem item = ViewGioHang.Instance.GetItems().FirstOrDefault(x => x.ID == _ID);
 			if (item != null && item.SoLuong < _ISanPhamChiTietServices.GetViewChiTietSps().FirstOrDefault(x => x.ID == _ID).SoLuongTon)
@@ -786,12 +804,12 @@ namespace _3_GUI.View
 			}
 		}
 
-		private void btn_cleargiohang_Click(object sender, EventArgs e)
+		public void btn_cleargiohang_Click(object sender, EventArgs e)
 		{
 			ClearGioHang();
 		}
 
-		private void btn_xoatheoclick_Click(object sender, EventArgs e)
+		public void btn_xoatheoclick_Click(object sender, EventArgs e)
 		{
 			if (_lstViewHDct.Any())
 			{

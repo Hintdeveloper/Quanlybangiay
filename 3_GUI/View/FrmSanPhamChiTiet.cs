@@ -144,9 +144,8 @@ namespace _3_GUI.View
 			var size = _isizeServices.GetAll().FirstOrDefault(c => c.Ten == cmb_SZ.Text);
 			var nsx = _nSXServices.GetAll().FirstOrDefault(c => c.Ten == cmb_NSX.Text);
 			var ncc = _inhaCCServices.GetAll().FirstOrDefault(c => c.Ten == cmb_NCC.Text);
-			string projectDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-			File.Copy(linkanh, Path.Combine(projectDirectory, "Resources", "Images", Path.GetFileName(linkanh)), true);
-			linkanh = Path.Combine(projectDirectory, "Resources", "Images", Path.GetFileName(linkanh));
+            linkanh = Path.Combine("D:", "Resources", "Images", Path.GetFileName(linkanh));
+            //File.Copy(linkanh, Path.Combine("D:", "Resources", "Images", Path.GetFileName(linkanh)), true);
 			ViewSanPhamChiTiet CTSP = new ViewSanPhamChiTiet()
 			{
 				ID = Guid.Empty,

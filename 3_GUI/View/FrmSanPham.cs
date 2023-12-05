@@ -26,6 +26,7 @@ namespace _3_GUI.View
         public bool AddSuccessful { get; set; }
         public bool EditSuccessful { get; set; }
         public bool ViewSuccessful { get; set; }
+        public bool DeleteSuccessful { get; set; }
 
         public FrmSanPham()
         {
@@ -171,11 +172,13 @@ namespace _3_GUI.View
                 if (_sp == null)
                 {
                     MessageBox.Show("Không tìm thấy");
+                    DeleteSuccessful = false;
                 }
                 else
                 {
                     _isanPhamServices.Delete(_sp);
                     MessageBox.Show("Xóa thành công");
+                    DeleteSuccessful = true;
                     Reset();
                 }
             }

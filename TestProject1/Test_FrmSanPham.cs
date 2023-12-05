@@ -52,8 +52,8 @@ namespace TestProject1
         public void Btn_Them_Click_WhenCalled_ChecksForFullFilled()
         {
             // Arrange
-            form.txt_Ten.Text = "qwer";
-            form.txt_GhiChu.Text= "basdfasdf";
+            form.txt_Ten.Text = "SP3";
+            form.txt_GhiChu.Text= "";
             // Act
             form.btn_Them_Click(new object(), new EventArgs());
 
@@ -108,6 +108,22 @@ namespace TestProject1
 
             // Assert
             Assert.IsTrue(form.EditSuccessful);
+        }
+        [Test]
+        public void Check_Delete()
+        {
+            // Arrange
+            var e = new DataGridViewCellEventArgs(0, 0);
+
+            // Act
+            form.dgrid_SP_CellClick(null, e);
+
+            // Assert
+            Assert.That(form.ViewSuccessful, Is.True);
+
+            form.btn_Xoa_Click(null, null);
+
+            Assert.IsTrue(form.DeleteSuccessful);
         }
     }
 }

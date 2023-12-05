@@ -29,6 +29,7 @@ namespace _3_GUI.View
         public bool AddSuccessful { get; set; }
         public bool EditSuccessful { get; set; }
         public bool ViewSuccessful { get; set; }
+		public bool DeleteSuccessful { get; set; }
 
         public FrmKhachHang()
 		{
@@ -121,11 +122,16 @@ namespace _3_GUI.View
 		public void btn_xoa_Click(object sender, EventArgs e)
 		{
 			DialogResult dialog = MessageBox.Show("Bạn có muốn xóa khách hàng không?", "Chú ý", MessageBoxButtons.YesNo);
-			if (dialog == DialogResult.Yes)
+			if (dialog == DialogResult.Yes || khachHang != null)
 			{
-				_IKhachHangServices.Delete(ID);
+				DeleteSuccessful = true;
+                _IKhachHangServices.Delete(ID);
 				MessageBox.Show("Xóa thành công");
 				LoadData();
+			}
+			else
+			{
+				MessageBox.Show("Không tìm thấy khách hàng");
 			}
 		}
 

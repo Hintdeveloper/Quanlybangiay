@@ -114,7 +114,7 @@ namespace TestProject1
            
 
             // Arrange
-            var e = new DataGridViewCellEventArgs(0, 1);
+            var e = new DataGridViewCellEventArgs(1, 2);
 
             // Act
             form.dtg_show_CellClick(null, e);
@@ -124,16 +124,34 @@ namespace TestProject1
             // ... Assert the rest of your text boxes here ...
 
             // Arrange
-            form.tb_hoten.Text = "Tran Le A";
-            form.tb_sdt.Text = "0123654987";
-            form.tb_point.Text = "50";
-            form.rd_khachquen.Checked = false;
+            form.tb_hoten.Text = "Tran Le B";
+            form.tb_sdt.Text = "0123456987";
+            form.tb_point.Text = "20";
+            form.rd_khachquen.Checked = true;
             form.rd_khachvanglai.Checked = false;
             // Act
             form.btn_sua_Click(null, null);
 
             // Assert
             Assert.IsTrue(form.EditSuccessful);
+        }
+        [Test]
+        public void check_Delete()
+        {
+
+            // Arrange
+            var e = new DataGridViewCellEventArgs(0, 1);
+
+            // Act
+            form.dtg_show_CellClick(null, e);
+
+            // Assert
+            Assert.That(form.ViewSuccessful, Is.True);
+            // ... Assert the rest of your text boxes here ...
+
+            form.btn_xoa_Click(null, null);
+
+            Assert.IsTrue(form.DeleteSuccessful);
         }
     }
 }

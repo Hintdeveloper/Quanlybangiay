@@ -17,6 +17,8 @@ namespace _3_GUI.View
 	{
 		INhanVienServices _inhanVienServices;
 		IChucVuServices _chucVuServices;
+
+		public bool canAccess { get; set; }
 		public FrmMain()
 		{
 			InitializeComponent();
@@ -47,10 +49,12 @@ namespace _3_GUI.View
                                 FrmCV_NV frmQLNhanVien = new FrmCV_NV() { Dock = DockStyle.Fill, TopLevel = false, TopMost = true };
                                 this.panel3.Controls.Add(frmQLNhanVien);
                                 frmQLNhanVien.Show();
+								canAccess = true;
                             }
                             else if (idcv != "Trưởng phòng")
                             {
                                 MessageBox.Show("Nhân viên không có quyền sử dụng chức năng này");
+								canAccess = false;
                             }
                         }
                     }
