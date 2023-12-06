@@ -56,8 +56,5 @@ namespace TestProject1
             Assert.That(form.LoginSuccessful, Is.False);
         }
 
-        //Và lưu ý là với mỗi form anh nên tạo riêng các class để test
-        //Làm vậy sẽ giúp anh không bị loạn mắt khi test và sẽ không phải khai báo nhiều thứ trong 1 file
-        //Nó hơi khó hiểu ấy vì em gọi cả phương thức trên form luôn. Và ngoài ra thì trong form em tạo 1 property có chức năng như flag để kiểm tra case đó đúng hay chưa
     }
 }
